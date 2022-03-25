@@ -2,6 +2,7 @@ class computer {
   float threshold = 100;
   boolean leftclickReady = false;
   boolean rightclickReady = false;
+  int scrollStartY = 0;
 
   void interact() {
     if (hand.leftclick && leftclickReady) {
@@ -25,12 +26,17 @@ class computer {
     }
 
     if (hand.scrollup) {
-      robot.mouseWheel(1);
-      delay(100);
+      if (hand.landmarks[1][1] < scrollStartY-40) {
+        robot.mouseWheel(-1);
+        scrollStartY = hand.landmarks[1][1];
+      }
+      if (hand.landmarks[1][1] > scrollStartY+40) {
+        robot.mouseWheel(1);
+        scrollStartY = hand.landmarks[1][1];
+      }
     }
-    if (hand.scrolldown) {
-      robot.mouseWheel(-1);
-      delay(100);
-    }
+
+    //robot.keyPress(KeyEvent.VK_A); 
+    //robot.keyRelease(KeyEvent.VK_A);
   }
 }
