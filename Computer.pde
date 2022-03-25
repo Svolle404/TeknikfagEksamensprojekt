@@ -1,7 +1,7 @@
 class computer {
-  float threshold = 100;
   boolean leftclickReady = false;
   boolean rightclickReady = false;
+  boolean dragReady = false;
   int scrollStartY = 0;
 
   void interact() {
@@ -25,7 +25,7 @@ class computer {
       rightclickReady = true;
     }
 
-    if (hand.scrollup) {
+    if (hand.scroll) {
       if (hand.landmarks[1][1] < scrollStartY-40) {
         robot.mouseWheel(-1);
         scrollStartY = hand.landmarks[1][1];
@@ -36,7 +36,16 @@ class computer {
       }
     }
 
-    //robot.keyPress(KeyEvent.VK_A); 
+    if (hand.drag && dragReady) {
+      robot.mousePress(InputEvent.BUTTON1_MASK);
+      dragReady = false;
+    } 
+    if (!hand.drag && !dragReady) {
+      robot.mouseRelease(InputEvent.BUTTON1_MASK);
+      dragReady = true;
+    }
+
+    //robot.keyPress(KeyEvent.VK_A);
     //robot.keyRelease(KeyEvent.VK_A);
   }
 }

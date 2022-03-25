@@ -3,8 +3,8 @@ class hand {
   boolean move = false;
   boolean leftclick = false;
   boolean rightclick = false;
-  boolean scrollup = false;
-  boolean scrolldown = false;
+  boolean scroll = false;
+  boolean drag = false;
   float x = 0;
   float y = 0;
   int gesture = 0;
@@ -37,13 +37,23 @@ class hand {
     }
 
     if (landmarks[1][1] < landmarks[3][1]-120 && landmarks[1][1] < landmarks[4][1]-120 && landmarks[2][1] < landmarks[3][1]-120 && landmarks[2][1] < landmarks[4][1]-120 && !move) {
-      if (!scrollup) {
-        scrollup = true;
+      if (!scroll) {
+        scroll = true;
         computer.scrollStartY = landmarks[1][1];
       }
       gesture = 4;
     } else {
-      scrollup = false;
+      scroll = false;
+    }
+
+    if (landmarks[1][1] < landmarks[2][1]-60 && landmarks[1][1] < landmarks[3][1]-60 && landmarks[4][1] < landmarks[2][1]-60 && landmarks[4][1] < landmarks[3][1]-60 && !move) {
+      x = lerp(x, landmarks[1][0], 0.1);
+      y = lerp(y, landmarks[1][1], 0.1);
+      robot.mouseMove(int(x), int(y));
+      drag = true;
+      gesture = 5;
+    } else {
+      drag = false;
     }
   }
 }

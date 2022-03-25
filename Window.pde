@@ -4,7 +4,7 @@ class window {
   float h = 200;
   float ph = 0;
   boolean focused = false;
-  PImage[] hands = new PImage[5];
+  PImage[] hands = new PImage[6];
 
   void update() {
     pw = w;
