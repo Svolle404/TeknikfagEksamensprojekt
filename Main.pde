@@ -1,3 +1,6 @@
+import java.awt.Frame;
+import processing.awt.PSurfaceAWT;
+import processing.awt.PSurfaceAWT.SmoothCanvas;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
@@ -9,6 +12,15 @@ data data;
 hand hand;
 computer computer;
 window window;
+
+PSurface initSurface() {
+  PSurface pSurface = super.initSurface();
+  PSurfaceAWT awtSurface = (PSurfaceAWT) surface;
+  SmoothCanvas smoothCanvas = (SmoothCanvas) awtSurface.getNative();
+  Frame frame = smoothCanvas.getFrame();
+  frame.setUndecorated(true);
+  return pSurface;
+}
 
 void setup() {
   size(200, 200);
@@ -42,8 +54,10 @@ void draw() {
 
 void mouseEntered() {
   window.focused = true;
+  println("a");
 }
 
 void mouseExited() {
   window.focused = false;
+  println("b");
 }
